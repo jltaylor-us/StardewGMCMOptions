@@ -14,11 +14,11 @@ There is nothing for you to do except install GMCM Options like every other SMAP
 
 **For mod authors:**
 
-Copy the [API](IGMCMOptionsApi.cs) into your project.
+Copy the [API](StardewGMCMOptions/IGMCMOptionsAPI.cs) into your project.
 Use GMCM as normal.  When you want to insert one of the complex options provided by GMCM Options, call the appropriate
 method from the GMCM Options API.  That's it!
 
-See [Example.cs](Example.cs) for a working example.
+See [Example.cs](StardewGMCMOptions/Example.cs) for a working example.
 
 ## Complex Options Provided by GMCM Options
 
@@ -37,7 +37,7 @@ Or display multiple picker styles at once:
 
 When multiple styles are shown for the same option, updates are synchronized between all of the different picker
 styles.
-![](doc/color-picker-interaction.mov)
+![video](doc/color-picker-interactions.mov)
 
 
 
