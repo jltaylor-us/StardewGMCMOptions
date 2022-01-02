@@ -1,6 +1,6 @@
 // Copyright 2022 Jamie Taylor
 //
-// To facilitate other mods which would like to use the RangeHighlight API,
+// To facilitate other mods which would like to use the GMCMOptions API,
 // the license for this file (and only this file) is modified by removing the
 // notice requirements for binary distribution.  The license (as amended)
 // is included below, making this file self-contained.

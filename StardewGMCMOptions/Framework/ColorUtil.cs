@@ -147,6 +147,7 @@ namespace GMCMOptions.Framework {
             return colorWheel;
         }
 
+        /// <summary>A 1x1 texture containing a white pixel</summary>
         public static Texture2D Pixel = InitPixel();
         private static Texture2D InitPixel() {
             Color[] data = new Color[1];

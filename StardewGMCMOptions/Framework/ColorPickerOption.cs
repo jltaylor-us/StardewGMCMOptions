@@ -26,6 +26,7 @@ namespace GMCMOptions.Framework {
 
     }
     #pragma warning restore format
+
     /// <summary>
     /// A widget for selecting a Color that can be used as a GMCM complex option.
     /// </summary>
