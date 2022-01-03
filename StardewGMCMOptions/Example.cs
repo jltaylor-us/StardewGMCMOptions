@@ -53,6 +53,12 @@ namespace GMCMOptions {
             // register some complex config options
             configMenuExt.AddColorOption(
                 mod: ModManifest,
+                getValue: () => config.c4,
+                setValue: (c) => config.c4 = c,
+                name: () => "Default options",
+                tooltip: () => "This example shows the AddColorOption default options");
+            configMenuExt.AddColorOption(
+                mod: ModManifest,
                 getValue: () => config.c1,
                 setValue: (c) => config.c1 = c,
                 name: () => "Simple RGBA sliders",
@@ -74,12 +80,6 @@ namespace GMCMOptions {
                 tooltip: () => "This example shows all different picker styles, with multiple visible at a time, with no alpha slider.",
                 showAlpha: false,
                 colorPickerStyle: (uint)(IGMCMOptionsAPI.ColorPickerStyle.AllStyles | IGMCMOptionsAPI.ColorPickerStyle.ToggleChooser));
-            configMenuExt.AddColorOption(
-                mod: ModManifest,
-                getValue: () => config.c4,
-                setValue: (c) => config.c4 = c,
-                name: () => "Default options",
-                tooltip: () => "This example shows the AddColorOption default options");
         }
 
         public void RemoveFromGMCM() {
