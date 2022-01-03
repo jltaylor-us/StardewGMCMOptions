@@ -222,12 +222,21 @@ namespace GMCMOptions.Framework {
                 foreach (IconButton btn in StyleButtons) height = Math.Max(height, btn.Height);
                 top += height + sliderSpacing;
             }
-            if (EffectiveStyle.HasFlag(ColorPickerStyle.RGBSliders)) top += 3 * (ColorSlider.height + sliderSpacing);
             if (ShowAlpha) top += (ColorSlider.height + sliderSpacing);
-            if (EffectiveStyle.HasFlag(ColorPickerStyle.HSVColorWheel) && EffectiveStyle.HasFlag(ColorPickerStyle.HSLColorWheel)) top = Math.Max(top, colorBoxOuterSize + sliderSpacing);
-            if (EffectiveStyle.HasFlag(ColorPickerStyle.HSVColorWheel) || EffectiveStyle.HasFlag(ColorPickerStyle.HSLColorWheel)) top += Math.Max(hsvWheel.Height, hslWheel.Height);
+            if (EffectiveStyle.HasFlag(ColorPickerStyle.RadioChooser)) {
+                // showing at most one of these anyway.
+                int height = 0;
+                if (EffectiveStyle.HasFlag(ColorPickerStyle.RGBSliders)) height = Math.Max(height, 3 * (ColorSlider.height + sliderSpacing));
+                if (EffectiveStyle.HasFlag(ColorPickerStyle.HSVColorWheel)) height = Math.Max(height, hsvWheel.Height);
+                if (EffectiveStyle.HasFlag(ColorPickerStyle.HSLColorWheel)) height = Math.Max(height, hslWheel.Height);
+                top += height;
+            } else {
+                if (EffectiveStyle.HasFlag(ColorPickerStyle.RGBSliders)) top += 3 * (ColorSlider.height + sliderSpacing);
+                if (EffectiveStyle.HasFlag(ColorPickerStyle.HSVColorWheel) && EffectiveStyle.HasFlag(ColorPickerStyle.HSLColorWheel)) top = Math.Max(top, colorBoxOuterSize + sliderSpacing);
+                if (EffectiveStyle.HasFlag(ColorPickerStyle.HSVColorWheel) || EffectiveStyle.HasFlag(ColorPickerStyle.HSLColorWheel)) top += Math.Max(hsvWheel.Height, hslWheel.Height);
+            }
 
-            return top + sliderSpacing;
+            return top;
         }
 
         private int DrawStyleSelector(SpriteBatch b, int posX, int posY) {
