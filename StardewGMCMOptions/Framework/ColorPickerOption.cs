@@ -261,7 +261,11 @@ namespace GMCMOptions.Framework {
             IClickableMenu.drawTextureBox(b, Game1.menuTexture, new Rectangle(0, 256, 60, 60), left + colorBoxOffset, top, colorBoxOuterSize, colorBoxOuterSize, Color.White, 1f, false);
             var colorBox = new Rectangle(left + colorBoxOffset + colorBoxBorder, top + colorBoxBorder, colorBoxInnerSize, colorBoxInnerSize);
             b.Draw(checkerboard, colorBox, Color.White);
+            b.End();
+            b.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, null, Utility.ScissorEnabled);
             b.Draw(ColorUtil.Pixel, colorBox, currentValue);
+            b.End();
+            b.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, Utility.ScissorEnabled);
 
             top += sliderSpacing;
 
