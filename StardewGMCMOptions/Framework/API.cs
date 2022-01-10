@@ -27,6 +27,7 @@ namespace GMCMOptions.Framework {
                 tooltip: tooltip,
                 draw: option.Draw,
                 height: option.Height,
+                beforeMenuOpened: option.Reset,
                 beforeSave: option.SaveChanges,
                 afterReset: option.Reset,
                 fieldId: fieldId);
@@ -37,7 +38,7 @@ namespace GMCMOptions.Framework {
     /// </summary>
     public interface GMCMAPI {
         // see https://github.com/spacechase0/StardewValleyMods/blob/develop/GenericModConfigMenu/IGenericModConfigMenuApi.cs
-        void AddComplexOption(IManifest mod, Func<string> name, Action<SpriteBatch, Vector2> draw, Func<string> tooltip = null, Action beforeSave = null, Action afterSave = null, Action beforeReset = null, Action afterReset = null, Func<int> height = null, string fieldId = null);
+        void AddComplexOption(IManifest mod, Func<string> name, Action<SpriteBatch, Vector2> draw, Func<string> tooltip = null, Action beforeMenuOpened = null, Action beforeSave = null, Action afterSave = null, Action beforeReset = null, Action afterReset = null, Action beforeMenuClosed = null, Func<int> height = null, string fieldId = null);
 
     }
 
