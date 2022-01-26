@@ -1,7 +1,10 @@
 // Copyright 2022 Jamie Taylor
-﻿using System;
+using System;
+using System.Linq;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI;
+using StardewValley;
 
 namespace GMCMOptions {
     /// <summary>
@@ -16,6 +19,10 @@ namespace GMCMOptions {
             public Color c2 = Color.MediumAquamarine;
             public Color c3 = Color.SandyBrown;
             public Color c4 = Color.ForestGreen;
+            public uint i1 = 0;
+            public uint i2 = 1;
+            public uint i3 = 2;
+            public uint i4 = 0;
         }
 
         /// <summary>
@@ -51,6 +58,7 @@ namespace GMCMOptions {
                 reset: () => config = new Config(),
                 save: SaveConfig);
             // register some complex config options
+            // Color options
             configMenuExt.AddColorOption(
                 mod: ModManifest,
                 getValue: () => config.c4,
@@ -80,6 +88,83 @@ namespace GMCMOptions {
                 tooltip: () => "This example shows all different picker styles, with multiple visible at a time, with no alpha slider.",
                 showAlpha: false,
                 colorPickerStyle: (uint)(IGMCMOptionsAPI.ColorPickerStyle.AllStyles | IGMCMOptionsAPI.ColorPickerStyle.ToggleChooser));
+            // image options
+            // test data for the images - labels are functions for easy i18n support
+            (Func<String> label, Texture2D texture, Rectangle? rect)[] testImageData = {
+                (() => "Stardrop", Game1.mouseCursors, new Rectangle(346, 392, 8, 8)),
+                (() => "Logo", Game1.content.Load<Texture2D>("LooseSprites\\logo"), null),
+                (() => "Speech", Game1.mouseCursors, new Rectangle(66, 4, 14, 12)),
+            };
+            configMenuExt.AddImageOption(
+                mod: ModManifest,
+                getValue: () => config.i1,
+                setValue: (v) => config.i1 = v,
+                name: () => "Image picker option",
+                getMaxValue: () => (uint)(testImageData.Length - 1),
+                maxImageHeight: () => testImageData.Select(d => d.rect?.Height ?? d.texture.Height).Max(),
+                maxImageWidth: () => testImageData.Select(d => d.rect?.Width ?? d.texture.Width).Max(),
+                drawImage: (v, b, pos) => {
+                    b.Draw(testImageData[v].texture, pos, testImageData[v].rect, Color.White);
+                },
+                label: (v) => testImageData[v].label());
+            configMenuExt.AddImageOption(
+                mod: ModManifest,
+                getValue: () => config.i2,
+                setValue: (v) => config.i2 = v,
+                name: () => "Image picker option options",
+                tooltip: () => "Showing different layout options",
+                getMaxValue: () => (uint)(testImageData.Length - 1),
+                maxImageHeight: () => testImageData.Select(d => d.rect?.Height ?? d.texture.Height).Max(),
+                maxImageWidth: () => testImageData.Select(d => d.rect?.Width ?? d.texture.Width).Max(),
+                drawImage: (v, b, pos) => {
+                    b.Draw(testImageData[v].texture, pos, testImageData[v].rect, Color.White);
+                },
+                label: (v) => testImageData[v].label(),
+                arrowLocation: (int)IGMCMOptionsAPI.ImageOptionArrowLocation.Sides,
+                labelLocation: (int)IGMCMOptionsAPI.ImageOptionLabelLocation.Bottom);
+            configMenuExt.AddImageOption(
+                mod: ModManifest,
+                getValue: () => config.i3,
+                setValue: (v) => config.i3 = v,
+                name: () => "Simplified image picker",
+                tooltip: () => "With default layout",
+                choices: () => testImageData) ;
+            // Image option test with a complicated draw function
+            configMenuExt.AddImageOption(
+                mod: ModManifest,
+                getValue: () => config.i4,
+                setValue: (v) => config.i4 = v,
+                name: () => "Image picker with custom drawing",
+                getMaxValue: () => 2,
+                maxImageHeight: () => 128,
+                maxImageWidth: () => 64,
+                drawImage: (v, b, pos) => {
+                    FarmerRenderer.isDrawingForUI = true;
+                    var farmer = Game1.player;
+                    var oldPantsColor = farmer.pantsColor.Value;
+                    var oldDir = farmer.facingDirection.Value;
+                    farmer.faceDirection(Game1.down);
+                    if (v == 1) {
+                        farmer.changeShirt(10);
+                        farmer.changePantStyle(0);
+                        farmer.changePants(new Color(49, 49, 49));
+
+                    } else if (v==2) {
+                        farmer.changeShirt(265);
+                        farmer.changePantStyle(2);
+                        farmer.changePants(new Color(255, 255, 255));
+                    }
+                    farmer.FarmerRenderer.draw(b, farmer.FarmerSprite.CurrentAnimationFrame, farmer.FarmerSprite.CurrentFrame, farmer.FarmerSprite.SourceRect, pos, Vector2.Zero, 0.8f, Color.White, 0f, 1f, farmer);
+                    farmer.changeShirt(-1);
+                    farmer.changePants(oldPantsColor);
+                    farmer.changePantStyle(-1);
+                    farmer.faceDirection(oldDir);
+                    FarmerRenderer.isDrawingForUI = false;
+                },
+                label: (v) => v == 0 ? null : v == 1 ? "tux" : "dress",
+                arrowLocation: (int)IGMCMOptionsAPI.ImageOptionArrowLocation.Sides,
+                labelLocation: (int)IGMCMOptionsAPI.ImageOptionLabelLocation.Bottom);
+
         }
 
         public void RemoveFromGMCM() {

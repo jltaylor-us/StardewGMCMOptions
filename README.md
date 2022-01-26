@@ -2,10 +2,12 @@
 
 A Stardew Valley SMAP mod that provides additional complex option types for use with Gemeric Mod Config Menu (GMCM).
 
-Currentlly, the only complex option type provided is a color picker.
-
 You can find this mod on [Nexus Mods](https://www.nexusmods.com/stardewvalley/mods/10505)
 if you prefer.
+
+The complex options currently supported are:
+* [Color Picker](#color-picker)
+* [Image Picker](#image-picker)
 
 ## How to Use
 
@@ -19,6 +21,7 @@ Use GMCM as normal.  When you want to insert one of the complex options provided
 method from the GMCM Options API.  That's it!
 
 See [Example.cs](StardewGMCMOptions/Example.cs) for a working example.
+(If you want to actually see it work in the game, for real, type `gmcmoptions-example` in the SMAPI console to enable it.)
 
 ## Complex Options Provided by GMCM Options
 
@@ -39,6 +42,18 @@ When multiple styles are shown for the same option, updates are synchronized bet
 styles.
 ![video](doc/color-picker-interactions.mov)
 
+### Image Picker
+
+The image picker option is really an "array index picker" where each index is rendered as an image
+(or custom draw function) that you supply.  The underlying value of the option is the `uint` of the
+selected index.
+
+Label and arrow location are configurable.
+
+The API provides both a full interface where you can supply a custom drawing function, an a simplified
+interface where you need only supply an array of tuples describing the images to be drawn and their labels.
+
+![video](doc/image-picker-attire.mov)
 
 
 ----

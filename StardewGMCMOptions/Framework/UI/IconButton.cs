@@ -28,6 +28,7 @@ namespace GMCMOptions.Framework.UI {
 
         // saved values of the constructor args
         private readonly Texture2D icon;
+        private readonly Rectangle iconRect;
         private readonly String text;
         private readonly Action<IconButton> onClick;
         private readonly float fontScale;
@@ -54,18 +55,19 @@ namespace GMCMOptions.Framework.UI {
         /// <param name="fontScale">The scale to apply when drawing the text</param>
         /// <param name="selectedBackgroundColor">The background color to use when the widget is selected.  Defaults
         ///   to a mostly-transparent black.</param>
-        public IconButton(Texture2D icon, String text, Action<IconButton> onClick = null, bool selected = true,
+        public IconButton(Texture2D icon, Rectangle? sourceRect = null, String text = "", Action<IconButton> onClick = null, bool selected = true,
             float fontScale = 0.5f, Color? selectedBackgroundColor = null) {
             this.icon = icon;
+            this.iconRect = sourceRect ?? new Rectangle(0, 0, icon.Width, icon.Height);
             this.text = text;
             this.onClick = onClick;
             this.Selected = selected;
             this.fontScale = fontScale;
             this.selectedBackgroundColor = selectedBackgroundColor ?? new Color(0, 0, 0, 24);
             Vector2 textSize = Game1.tinyFont.MeasureString(text) * fontScale;
-            width = margin * 2 + icon.Width + textOffsetX + (int)textSize.X;
-            height = margin * 2 + Math.Max(icon.Height, (int)textSize.Y);
-            textOffsetY = icon.Height > textSize.Y ? (icon.Height - (int)textSize.Y) / 2 : 0;
+            width = margin * 2 + iconRect.Width + (textSize.X == 0 ? 0 : textOffsetX) + (int)textSize.X;
+            height = margin * 2 + Math.Max(iconRect.Height, (int)textSize.Y);
+            textOffsetY = iconRect.Height > textSize.Y ? (iconRect.Height - (int)textSize.Y) / 2 : 0;
         }
 
         protected override void OnClick(int mouseX, int mouseY, int drawX, int drawY) {
@@ -80,8 +82,8 @@ namespace GMCMOptions.Framework.UI {
             if (Selected) {
                 b.Draw(ColorUtil.Pixel, new Rectangle(posX, posY, Width, Height), selectedBackgroundColor);
             }
-            b.Draw(icon, new Vector2(posX + margin, posY + margin), Color.White);
-            Utility.drawBoldText(b, text, Game1.tinyFont, new Vector2(posX + margin + icon.Width + textOffsetX, posY + margin + textOffsetY), Color.Black, fontScale);
+            b.Draw(icon, new Vector2(posX + margin, posY + margin), iconRect, Color.White);
+            Utility.drawBoldText(b, text, Game1.tinyFont, new Vector2(posX + margin + iconRect.Width + textOffsetX, posY + margin + textOffsetY), Color.Black, fontScale);
 
         }
     }

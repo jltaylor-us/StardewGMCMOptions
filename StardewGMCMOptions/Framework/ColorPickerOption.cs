@@ -109,9 +109,9 @@ namespace GMCMOptions.Framework {
                 && BitOperations.PopCount((uint)(style & ColorPickerStyle.AllStyles)) > 1;
             Action<IconButton> styleButtonClick = style.HasFlag(ColorPickerStyle.ToggleChooser) ? IconButton.ToggleSelected : StyleButtonRadio;
             bool defaultSelected = !style.HasFlag(ColorPickerStyle.RadioChooser);
-            RGBStyleButton = new IconButton(rgbStripe, "RGB", styleButtonClick, defaultSelected && style.HasFlag(ColorPickerStyle.RGBSliders));
-            HSVStyleButton = new IconButton(smallColorWheel, "HSV", styleButtonClick, defaultSelected && style.HasFlag(ColorPickerStyle.HSVColorWheel));
-            HSLStyleButton = new IconButton(smallColorWheel, "HSL", styleButtonClick, defaultSelected && style.HasFlag(ColorPickerStyle.HSLColorWheel));
+            RGBStyleButton = new IconButton(rgbStripe, null, "RGB", styleButtonClick, defaultSelected && style.HasFlag(ColorPickerStyle.RGBSliders));
+            HSVStyleButton = new IconButton(smallColorWheel, null, "HSV", styleButtonClick, defaultSelected && style.HasFlag(ColorPickerStyle.HSVColorWheel));
+            HSLStyleButton = new IconButton(smallColorWheel, null, "HSL", styleButtonClick, defaultSelected && style.HasFlag(ColorPickerStyle.HSLColorWheel));
             StyleButtons = new List<IconButton>();
             if (style.HasFlag(ColorPickerStyle.RGBSliders)) StyleButtons.Add(RGBStyleButton);
             if (style.HasFlag(ColorPickerStyle.HSVColorWheel)) StyleButtons.Add(HSVStyleButton);
