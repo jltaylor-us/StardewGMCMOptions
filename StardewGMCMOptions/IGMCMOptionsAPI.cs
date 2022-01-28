@@ -5,7 +5,9 @@
 // notice requirements for binary distribution.  The license (as amended)
 // is included below, making this file self-contained.
 //
-// In other words, anyone may copy this file into their own mod.
+// In other words, anyone may copy this file into their own mod (and edit
+// it if they want, e.g. to remove the methods they are not using, so long
+// as the license comment is retained).
 //
 
 //  Copyright(c) 2022, Jamie Taylor
