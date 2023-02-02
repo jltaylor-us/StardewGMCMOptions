@@ -15,7 +15,7 @@ namespace GMCMOptions.Framework {
         private bool fixedHeight;
         public API(IModRegistry modRegistry) {
             this.modRegistry = modRegistry;
-            IModInfo gmcm = modRegistry.Get("spacechase0.GenericModConfigMenu");
+            IModInfo? gmcm = modRegistry.Get("spacechase0.GenericModConfigMenu");
             if (gmcm is null) {
                 this.fixedHeight = false;
             } else {
@@ -25,8 +25,8 @@ namespace GMCMOptions.Framework {
 
         /// <inheritdoc/>
         public void AddColorOption(IManifest mod, Func<Color> getValue, Action<Color> setValue, Func<string> name,
-            Func<string> tooltip = null, bool showAlpha = true,
-            uint colorPickerStyle = 0, string fieldId = null) {
+            Func<string>? tooltip = null, bool showAlpha = true,
+            uint colorPickerStyle = 0, string? fieldId = null) {
             var gmcm = modRegistry.GetApi<GMCMAPI>("spacechase0.GenericModConfigMenu");
             if (gmcm == null) return;
             ColorPickerOption option = new ColorPickerOption(fixedHeight, getValue, setValue, showAlpha, (ColorPickerStyle)colorPickerStyle);
@@ -51,11 +51,11 @@ namespace GMCMOptions.Framework {
                     Func<int> maxImageHeight,
                     Func<int> maxImageWidth,
                     Action<uint, SpriteBatch, Vector2> drawImage,
-                    Func<string> tooltip = null,
-                    Func<uint, String> label = null,
+                    Func<string>? tooltip = null,
+                    Func<uint, String?>? label = null,
                     int arrowLocation = (int)ImageOptionArrowLocation.Top,
                     int labelLocation = (int)ImageOptionLabelLocation.Top,
-                    string fieldId = null) {
+                    string? fieldId = null) {
             var gmcm = modRegistry.GetApi<GMCMAPI>("spacechase0.GenericModConfigMenu");
             if (gmcm == null) return;
             ImagePickerOption option = new ImagePickerOption(getValue, setValue, getMaxValue,
@@ -78,11 +78,11 @@ namespace GMCMOptions.Framework {
                                    Func<uint> getValue,
                                    Action<uint> setValue,
                                    Func<string> name,
-                                   Func<(Func<String> label, Texture2D sheet, Rectangle? sourceRect)[]> choices,
-                                   Func<string> tooltip = null,
+                                   Func<(Func<String?> label, Texture2D sheet, Rectangle? sourceRect)[]> choices,
+                                   Func<string>? tooltip = null,
                                    int arrowLocation = (int)ImageOptionArrowLocation.Top,
                                    int labelLocation = (int)ImageOptionLabelLocation.Top,
-                                   string fieldId = null) {
+                                   string? fieldId = null) {
             var gmcm = modRegistry.GetApi<GMCMAPI>("spacechase0.GenericModConfigMenu");
             if (gmcm == null) return;
             ImagePickerOption option = new ImagePickerOption(
@@ -144,13 +144,13 @@ namespace GMCMOptions.Framework {
 
         /// <inheritdoc/>
         public void AddHorizontalSeparator(IManifest mod,
-                                           Func<double> getWidthFraction = null,
+                                           Func<double>? getWidthFraction = null,
                                            int height = 3,
                                            int padAbove = 0,
                                            int padBelow = 0,
                                            int alignment = 0,
-                                           Func<Color> getColor = null,
-                                           Func<Color> getShadowColor = null) {
+                                           Func<Color>? getColor = null,
+                                           Func<Color>? getShadowColor = null) {
             var gmcm = modRegistry.GetApi<GMCMAPI>("spacechase0.GenericModConfigMenu");
             if (gmcm == null) return;
             SeparatorOption option = new SeparatorOption(
@@ -176,7 +176,7 @@ namespace GMCMOptions.Framework {
     /// </summary>
     public interface GMCMAPI {
         // see https://github.com/spacechase0/StardewValleyMods/blob/develop/GenericModConfigMenu/IGenericModConfigMenuApi.cs
-        void AddComplexOption(IManifest mod, Func<string> name, Action<SpriteBatch, Vector2> draw, Func<string> tooltip = null, Action beforeMenuOpened = null, Action beforeSave = null, Action afterSave = null, Action beforeReset = null, Action afterReset = null, Action beforeMenuClosed = null, Func<int> height = null, string fieldId = null);
+        void AddComplexOption(IManifest mod, Func<string> name, Action<SpriteBatch, Vector2> draw, Func<string>? tooltip = null, Action? beforeMenuOpened = null, Action? beforeSave = null, Action? afterSave = null, Action? beforeReset = null, Action? afterReset = null, Action? beforeMenuClosed = null, Func<int>? height = null, string? fieldId = null);
 
     }
 

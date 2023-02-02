@@ -4,8 +4,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
 
-#nullable enable
-
 namespace GMCMOptions.Framework {
     public class SeparatorOption {
         const int shadowOffset = 2;

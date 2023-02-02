@@ -104,7 +104,7 @@ namespace GMCMOptions {
                 getShadowColor: () => Color.Transparent);
             // image options
             // test data for the images - labels are functions for easy i18n support
-            (Func<String> label, Texture2D texture, Rectangle? rect)[] testImageData = {
+            (Func<String?> label, Texture2D texture, Rectangle? rect)[] testImageData = {
                 (() => "Stardrop", Game1.mouseCursors, new Rectangle(346, 392, 8, 8)),
                 (() => "Logo", Game1.content.Load<Texture2D>("LooseSprites\\logo"), null),
                 (() => "Speech", Game1.mouseCursors, new Rectangle(66, 4, 14, 12)),
@@ -183,7 +183,7 @@ namespace GMCMOptions {
 
         public void RemoveFromGMCM() {
             var configMenu = Helper.ModRegistry.GetApi<IGenericModConfigMenuApi>("spacechase0.GenericModConfigMenu");
-            configMenu.Unregister(ModManifest);
+            configMenu?.Unregister(ModManifest);
         }
     }
     public interface IGenericModConfigMenuApi {

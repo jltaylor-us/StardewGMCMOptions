@@ -5,7 +5,7 @@ using StardewModdingAPI;
 
 namespace GMCMOptions {
     public class ModEntry : Mod {
-        private Example example;
+        private Example? example;
         public ModEntry() {
         }
 

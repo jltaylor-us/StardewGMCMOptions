@@ -54,7 +54,7 @@ namespace GMCMOptions {
         /// <param name="colorPickerStyle">Flags to control how the color picker is rendered.  <see cref="ColorPickerStyle"/></param>
         /// <param name="fieldId">The unique field ID for use with GMCM's <c>OnFieldChanged</c>, or <c>null</c> to auto-generate a randomized ID.</param>
         void AddColorOption(IManifest mod, Func<Color> getValue, Action<Color> setValue, Func<string> name,
-            Func<string> tooltip = null, bool showAlpha = true, uint colorPickerStyle = 0, string fieldId = null);
+            Func<string>? tooltip = null, bool showAlpha = true, uint colorPickerStyle = 0, string? fieldId = null);
 
         #pragma warning disable format
         /// <summary>
@@ -111,11 +111,11 @@ namespace GMCMOptions {
                             Func<int> maxImageHeight,
                             Func<int> maxImageWidth,
                             Action<uint, SpriteBatch, Vector2> drawImage,
-                            Func<string> tooltip = null,
-                            Func<uint, String> label = null,
+                            Func<string>? tooltip = null,
+                            Func<uint, String?>? label = null,
                             int arrowLocation = (int)ImageOptionArrowLocation.Top,
                             int labelLocation = (int)ImageOptionLabelLocation.Top,
-                            string fieldId = null);
+                            string? fieldId = null);
 
         /// <summary>
         /// Add an image picker option.  A simplified interface to the full <c>AddImageOption</c> signature.
@@ -143,11 +143,11 @@ namespace GMCMOptions {
                             Func<uint> getValue,
                             Action<uint> setValue,
                             Func<string> name,
-                            Func<(Func<String> label, Texture2D sheet, Rectangle? sourceRect)[]> choices,
-                            Func<string> tooltip = null,
+                            Func<(Func<String?> label, Texture2D sheet, Rectangle? sourceRect)[]> choices,
+                            Func<string>? tooltip = null,
                             int arrowLocation = (int)ImageOptionArrowLocation.Top,
                             int labelLocation = (int)ImageOptionLabelLocation.Top,
-                            string fieldId = null);
+                            string? fieldId = null);
         /// <summary>
         /// Valid values for the <c>arrowLocation</c> parameter of <c>AddImageOption</c>
         /// </summary>
@@ -188,13 +188,13 @@ namespace GMCMOptions {
         ///   game's text shadow color.  Return <c>Color.Transparent</c> to remove the shadow completely.
         /// </param>
         void AddHorizontalSeparator(IManifest mod,
-                                    Func<double> getWidthFraction = null,
+                                    Func<double>? getWidthFraction = null,
                                     int height = 3,
                                     int padAbove = 0,
                                     int padBelow = 0,
                                     int alignment = (int)HorizontalAlignment.Center,
-                                    Func<Color> getColor = null,
-                                    Func<Color> getShadowColor = null);
+                                    Func<Color>? getColor = null,
+                                    Func<Color>? getShadowColor = null);
 
         /// <summary>
         ///   Add a horizontal separator.  This is a simplified version of
