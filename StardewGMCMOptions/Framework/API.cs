@@ -115,6 +115,60 @@ namespace GMCMOptions.Framework {
                 fieldId: fieldId);
         }
 
+        /// <inheritdoc/>
+        public void AddSimpleHorizontalSeparator(IManifest mod,
+                                                 double widthFraction = 0.85,
+                                                 int height = 3,
+                                                 int padAbove = 0,
+                                                 int padBelow = 0,
+                                                 int alignment = 0,
+                                                 Color? color = null,
+                                                 Color? shadowColor = null) {
+            var gmcm = modRegistry.GetApi<GMCMAPI>("spacechase0.GenericModConfigMenu");
+            if (gmcm == null) return;
+            SeparatorOption option = new SeparatorOption(
+                getWidth: () => widthFraction,
+                height: height,
+                padAbove: padAbove,
+                padBelow: padBelow,
+                alignment: alignment,
+                getColor: color is null ? null : () => (Color)color,
+                getShadowColor: shadowColor is null ? null : () => (Color)shadowColor
+            );
+            gmcm.AddComplexOption(
+                mod: mod,
+                name: () => "",
+                draw: option.Draw,
+                height: option.OptionHeight);
+        }
+
+        /// <inheritdoc/>
+        public void AddHorizontalSeparator(IManifest mod,
+                                           Func<double> getWidthFraction = null,
+                                           int height = 3,
+                                           int padAbove = 0,
+                                           int padBelow = 0,
+                                           int alignment = 0,
+                                           Func<Color> getColor = null,
+                                           Func<Color> getShadowColor = null) {
+            var gmcm = modRegistry.GetApi<GMCMAPI>("spacechase0.GenericModConfigMenu");
+            if (gmcm == null) return;
+            SeparatorOption option = new SeparatorOption(
+                getWidth: getWidthFraction,
+                height: height,
+                padAbove: padAbove,
+                padBelow: padBelow,
+                alignment: alignment,
+                getColor: getColor,
+                getShadowColor: getShadowColor
+            );
+            gmcm.AddComplexOption(
+                mod: mod,
+                name: () => "",
+                draw: option.Draw,
+                height: option.OptionHeight);
+        }
+
 
     }
     /// <summary>
