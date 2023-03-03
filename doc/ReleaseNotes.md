@@ -1,6 +1,11 @@
 
 # Release Notes
 
+## Version 1.4.0
+
+The options with a non-null `fieldId` now invoke handlers registered
+with GMCM's `OnFieldChanged`.
+
 ## Version 1.3.0
 
 Adds a horizontal separator option.
