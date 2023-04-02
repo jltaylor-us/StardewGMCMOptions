@@ -1,6 +1,7 @@
 // Copyright 2022 Jamie Taylor
 using System;
 using System.Linq;
+using GMCMOptions.Framework;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI;
@@ -49,7 +50,8 @@ namespace GMCMOptions {
         public void AddToGMCM() {
             var configMenu = Helper.ModRegistry.GetApi<IGenericModConfigMenuApi>("spacechase0.GenericModConfigMenu");
             var configMenuExt = Helper.ModRegistry.GetApi<IGMCMOptionsAPI>("jltaylor-us.GMCMOptions");
-            if (configMenu is null || configMenuExt is null) {
+            var configMenuExtObsolete = Helper.ModRegistry.GetApi<IObsoleteApiMethods>("jltaylor-us.GMCMOptions");
+            if (configMenu is null || configMenuExt is null || configMenuExtObsolete is null) {
                 return;
             }
             // register the mod
@@ -120,7 +122,8 @@ namespace GMCMOptions {
                 drawImage: (v, b, pos) => {
                     b.Draw(testImageData[v].texture, pos, testImageData[v].rect, Color.White);
                 },
-                label: (v) => testImageData[v].label());
+                label: (v) => testImageData[v].label(),
+                imageTooltipText: (idx) => $"Image tooltip test text for image {idx}");
             configMenuExt.AddImageOption(
                 mod: ModManifest,
                 getValue: () => config.i2,
@@ -136,13 +139,15 @@ namespace GMCMOptions {
                 label: (v) => testImageData[v].label(),
                 arrowLocation: (int)IGMCMOptionsAPI.ImageOptionArrowLocation.Sides,
                 labelLocation: (int)IGMCMOptionsAPI.ImageOptionLabelLocation.Bottom);
-            configMenuExt.AddImageOption(
+#pragma warning disable CS0618 // Type or member is obsolete
+            configMenuExtObsolete.AddImageOption(
                 mod: ModManifest,
                 getValue: () => config.i3,
                 setValue: (v) => config.i3 = v,
                 name: () => "Simplified image picker",
                 tooltip: () => "With default layout",
                 choices: () => testImageData) ;
+#pragma warning restore CS0618 // Type or member is obsolete
             // Image option test with a complicated draw function
             configMenuExt.AddImageOption(
                 mod: ModManifest,
@@ -176,6 +181,7 @@ namespace GMCMOptions {
                     FarmerRenderer.isDrawingForUI = false;
                 },
                 label: (v) => v == 0 ? null : v == 1 ? "tux" : "dress",
+                imageTooltipText: (idx) => $"Image tooltip test text for image {idx}",
                 arrowLocation: (int)IGMCMOptionsAPI.ImageOptionArrowLocation.Sides,
                 labelLocation: (int)IGMCMOptionsAPI.ImageOptionLabelLocation.Bottom);
 

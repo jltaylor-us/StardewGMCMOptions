@@ -1,6 +1,11 @@
 
 # Release Notes
 
+## Version 1.5.0
+
+The image picker now allows specification of a tooltip to show over
+the image.
+
 ## Version 1.4.0
 
 The options with a non-null `fieldId` now invoke handlers registered
