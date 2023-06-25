@@ -82,7 +82,7 @@ were enclosed in an XML tag, the result must be a valid XML document.)
 Styled text should not have any newlines in the text (at least as of this release).
 
 The following tags are supported (and all others are removed from the text
-before it is displayed in the menu.
+before it is displayed in the menu).
 
 #### `<b>` - bold text
 
