@@ -182,19 +182,19 @@ namespace GMCMOptions {
                     var oldDir = farmer.facingDirection.Value;
                     farmer.faceDirection(Game1.down);
                     if (v == 1) {
-                        farmer.changeShirt(10);
-                        farmer.changePantStyle(0);
-                        farmer.changePants(new Color(49, 49, 49));
+                        farmer.changeShirt("1010");
+                        farmer.changePantStyle("0");
+                        farmer.changePantsColor(new Color(49, 49, 49));
 
                     } else if (v == 2) {
-                        farmer.changeShirt(265);
-                        farmer.changePantStyle(2);
-                        farmer.changePants(new Color(255, 255, 255));
+                        farmer.changeShirt("1265");
+                        farmer.changePantStyle("2");
+                        farmer.changePantsColor(new Color(255, 255, 255));
                     }
                     farmer.FarmerRenderer.draw(b, farmer.FarmerSprite.CurrentAnimationFrame, farmer.FarmerSprite.CurrentFrame, farmer.FarmerSprite.SourceRect, pos, Vector2.Zero, 0.8f, Color.White, 0f, 1f, farmer);
-                    farmer.changeShirt(-1);
-                    farmer.changePants(oldPantsColor);
-                    farmer.changePantStyle(-1);
+                    farmer.changeShirt("-1");
+                    farmer.changePantsColor(oldPantsColor);
+                    farmer.changePantStyle("-1");
                     farmer.faceDirection(oldDir);
                     FarmerRenderer.isDrawingForUI = false;
                 },

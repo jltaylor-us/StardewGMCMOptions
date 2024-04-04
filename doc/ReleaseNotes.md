@@ -1,6 +1,12 @@
 
 # Release Notes
 
+## Version 2.0.0
+
+Built for SDV 1.6 / SMAPI 4.0.  Will not work with previous versions.
+
+Fixed tux rendering in the example menu.
+
 ## Version 1.6.0
 
 Add dynamic paragraph option.  (Also supports styled text.)
