@@ -282,7 +282,24 @@ namespace GMCMOptions.Framework {
             var colorBox = new Rectangle(left + colorBoxOffset + colorBoxBorder, top + colorBoxBorder, colorBoxInnerSize, colorBoxInnerSize);
             b.Draw(checkerboard, colorBox, Color.White);
             b.End();
-            b.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, null, Utility.ScissorEnabled);
+            // Alpha blending formulas:
+            // - Current:
+            //   result_color = src_alpha * src_color + (1 - src_alpha) * dst_color
+            //   result_alpha = 0 * src_alpha + 1 * dst_alpha = 1.0 (assuming destination buffer alpha is 1.0)
+            // - Previous(NonPremultiplied):
+            //   result_color : same as above
+            //   result_alpha = src_alpha * src_alpha + (1 - src_alpha) * dst_alpha
+            //       Example: if src_alpha == 0.5 and dst_alpha == 1.0,
+            //                result_alpha = 0.75. 
+            //       Note: This leads to unintended blending between the menu UI and the rendered world,
+            //             the result alpha should always be 1.0 to avoid it.
+            var blendState = new BlendState{
+                ColorSourceBlend = Blend.SourceAlpha,
+                ColorDestinationBlend = Blend.InverseSourceAlpha,
+                AlphaSourceBlend = Blend.Zero,
+                AlphaDestinationBlend = Blend.One,
+            };
+            b.Begin(SpriteSortMode.Deferred, blendState, SamplerState.PointClamp, null, Utility.ScissorEnabled);
             b.Draw(ColorUtil.Pixel, colorBox, currentValue);
             b.End();
             b.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, Utility.ScissorEnabled);
