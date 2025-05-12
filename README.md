@@ -8,6 +8,8 @@ if you prefer.
 The complex options currently supported are:
 * [Color Picker](#color-picker)
 * [Image Picker](#image-picker)
+* [Horizontal Separator](#horizontal-separator)
+* [Dynamic Paragraph](#dynamic-paragraph)
 
 ## How to Use
 
