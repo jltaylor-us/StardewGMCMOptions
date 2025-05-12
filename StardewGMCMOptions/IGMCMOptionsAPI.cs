@@ -57,8 +57,10 @@ namespace GMCMOptions {
         /// <param name="showAlpha">Whether the color picker should allow setting the Alpha channel</param>
         /// <param name="colorPickerStyle">Flags to control how the color picker is rendered.  <see cref="ColorPickerStyle"/></param>
         /// <param name="fieldId">The unique field ID for use with GMCM's <c>OnFieldChanged</c>, or <c>null</c> to auto-generate a randomized ID.</param>
+        /// <param name="drawBackground">Custom the background draw, replacing the default chekerboard</param>
         void AddColorOption(IManifest mod, Func<Color> getValue, Action<Color> setValue, Func<string> name,
-            Func<string>? tooltip = null, bool showAlpha = true, uint colorPickerStyle = 0, string? fieldId = null);
+            Func<string>? tooltip = null, bool showAlpha = true, uint colorPickerStyle = 0, string? fieldId = null,
+            Action<SpriteBatch, Rectangle>? drawBackground = null);
 
         #pragma warning disable format
         /// <summary>

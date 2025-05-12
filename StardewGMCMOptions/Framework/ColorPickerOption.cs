@@ -67,7 +67,8 @@ namespace GMCMOptions.Framework {
         readonly bool ShowStylePicker;
         readonly ColorPickerStyle EffectiveStyle;
         readonly Action<Color>? onValueChange;
-
+        readonly Action<SpriteBatch, Rectangle> DrawBackground;
+        readonly Action<SpriteBatch, Rectangle> DrawCheckerBoard = (b, colorBox) => b.Draw(checkerboard, colorBox, Color.White);
         // UI widgets
 
         readonly IconButton RGBStyleButton;
@@ -101,13 +102,15 @@ namespace GMCMOptions.Framework {
         /// <param name="showAlpha">Whether a slider should be shown for setting the Alpha channel or not</param>
         /// <param name="style">Specify which types of color picker to show</param>
         /// <param name="onValueChange">An action to invoke whenever the (current, unsaved) value changes</param>
-        public ColorPickerOption(bool fixedHeight, Func<Color> getValue, Action<Color> setValue, bool showAlpha = true, ColorPickerStyle style = 0, Action<Color>? onValueChange = null) {
+        /// <param name="drawBackground">Custom the background image, replacing the default chekerboard</param>
+        public ColorPickerOption(bool fixedHeight, Func<Color> getValue, Action<Color> setValue, bool showAlpha = true, ColorPickerStyle style = 0, Action<Color>? onValueChange = null, Action<SpriteBatch, Rectangle>? drawBackground = null) {
             FixedHeight = fixedHeight;
             GetValue = getValue;
             SetValue = setValue;
             ShowAlpha = showAlpha;
             currentValue = getValue();
             this.onValueChange = onValueChange;
+            DrawBackground = drawBackground ?? DrawCheckerBoard;
 
             if (style == ColorPickerStyle.Default) {
                 style = ColorPickerStyle.AllStyles | ColorPickerStyle.ToggleChooser;
@@ -280,7 +283,7 @@ namespace GMCMOptions.Framework {
             int top = (int)pos.Y;
             IClickableMenu.drawTextureBox(b, Game1.menuTexture, new Rectangle(0, 256, 60, 60), left + colorBoxOffset, top, colorBoxOuterSize, colorBoxOuterSize, Color.White, 1f, false);
             var colorBox = new Rectangle(left + colorBoxOffset + colorBoxBorder, top + colorBoxBorder, colorBoxInnerSize, colorBoxInnerSize);
-            b.Draw(checkerboard, colorBox, Color.White);
+            DrawBackground.Invoke(b, colorBox);
             b.End();
             // Fixed blend state to not accidentally show portions of the underlying rendered world when alpha != 1
             // thanks to LinHuiGD <linhui_gd@hotmail.com> via GitHub

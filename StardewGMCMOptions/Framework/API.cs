@@ -78,11 +78,12 @@ namespace GMCMOptions.Framework {
         /// <inheritdoc/>
         public void AddColorOption(IManifest mod, Func<Color> getValue, Action<Color> setValue, Func<string> name,
             Func<string>? tooltip = null, bool showAlpha = true,
-            uint colorPickerStyle = 0, string? fieldId = null) {
+            uint colorPickerStyle = 0, string? fieldId = null,
+            Action<SpriteBatch, Rectangle>? drawBackground = null) {
             var gmcm = modRegistry.GetApi<GMCMAPI>("spacechase0.GenericModConfigMenu");
             if (gmcm == null) return;
             ColorPickerOption option = new ColorPickerOption(fixedHeight, getValue, setValue, showAlpha,
-                (ColorPickerStyle)colorPickerStyle, MakeChangeHandler<Color>(mod, gmcm, fieldId));
+                (ColorPickerStyle)colorPickerStyle, MakeChangeHandler<Color>(mod, gmcm, fieldId), drawBackground);
             gmcm.AddComplexOption(
                 mod: mod,
                 name: name,
