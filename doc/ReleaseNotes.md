@@ -3,9 +3,12 @@
 
 ## Version 2.0.0
 
-Built for SDV 1.6 / SMAPI 4.0.  Will not work with previous versions.
+Built for SDV 1.6 / SMAPI 4.x.  Will not work with previous versions.
 
 Fixed tux rendering in the example menu.
+
+Fix the color swatch in the color control partially showing the underlying
+rendered world when alpha is not 1.  (thanks GitHub user LinHuiGD)
 
 ## Version 1.6.0
 

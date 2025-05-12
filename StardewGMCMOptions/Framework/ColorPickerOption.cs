@@ -282,7 +282,15 @@ namespace GMCMOptions.Framework {
             var colorBox = new Rectangle(left + colorBoxOffset + colorBoxBorder, top + colorBoxBorder, colorBoxInnerSize, colorBoxInnerSize);
             b.Draw(checkerboard, colorBox, Color.White);
             b.End();
-            b.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, null, Utility.ScissorEnabled);
+            // Fixed blend state to not accidentally show portions of the underlying rendered world when alpha != 1
+            // thanks to LinHuiGD <linhui_gd@hotmail.com> via GitHub
+            var blendState = new BlendState{
+                ColorSourceBlend = Blend.SourceAlpha,
+                ColorDestinationBlend = Blend.InverseSourceAlpha,
+                AlphaSourceBlend = Blend.Zero,
+                AlphaDestinationBlend = Blend.One,
+            };
+            b.Begin(SpriteSortMode.Deferred, blendState, SamplerState.PointClamp, null, Utility.ScissorEnabled);
             b.Draw(ColorUtil.Pixel, colorBox, currentValue);
             b.End();
             b.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, Utility.ScissorEnabled);
