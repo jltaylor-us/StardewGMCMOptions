@@ -95,6 +95,27 @@ namespace GMCMOptions.Framework {
                 afterReset: option.Reset,
                 fieldId: fieldId);
         }
+        
+        /// <inheritdoc/>
+        [Obsolete]
+        public void AddColorOption(IManifest mod, Func<Color> getValue, Action<Color> setValue, Func<string> name,
+            Func<string>? tooltip = null, bool showAlpha = true,
+            uint colorPickerStyle = 0, string? fieldId = null) {
+            var gmcm = modRegistry.GetApi<GMCMAPI>("spacechase0.GenericModConfigMenu");
+            if (gmcm == null) return;
+            ColorPickerOption option = new ColorPickerOption(fixedHeight, getValue, setValue, showAlpha,
+                (ColorPickerStyle)colorPickerStyle, MakeChangeHandler<Color>(mod, gmcm, fieldId));
+            gmcm.AddComplexOption(
+                mod: mod,
+                name: name,
+                tooltip: tooltip,
+                draw: option.Draw,
+                height: option.Height,
+                beforeMenuOpened: option.Reset,
+                beforeSave: option.SaveChanges,
+                afterReset: option.Reset,
+                fieldId: fieldId);
+        }
 
         /// <inheritdoc/>
         public void AddImageOption(IManifest mod,
