@@ -95,27 +95,6 @@ namespace GMCMOptions.Framework {
                 afterReset: option.Reset,
                 fieldId: fieldId);
         }
-        
-        /// <inheritdoc/>
-        [Obsolete]
-        public void AddColorOption(IManifest mod, Func<Color> getValue, Action<Color> setValue, Func<string> name,
-            Func<string>? tooltip = null, bool showAlpha = true,
-            uint colorPickerStyle = 0, string? fieldId = null) {
-            var gmcm = modRegistry.GetApi<GMCMAPI>("spacechase0.GenericModConfigMenu");
-            if (gmcm == null) return;
-            ColorPickerOption option = new ColorPickerOption(fixedHeight, getValue, setValue, showAlpha,
-                (ColorPickerStyle)colorPickerStyle, MakeChangeHandler<Color>(mod, gmcm, fieldId));
-            gmcm.AddComplexOption(
-                mod: mod,
-                name: name,
-                tooltip: tooltip,
-                draw: option.Draw,
-                height: option.Height,
-                beforeMenuOpened: option.Reset,
-                beforeSave: option.SaveChanges,
-                afterReset: option.Reset,
-                fieldId: fieldId);
-        }
 
         /// <inheritdoc/>
         public void AddImageOption(IManifest mod,
@@ -277,6 +256,11 @@ namespace GMCMOptions.Framework {
 
         void IObsoleteApiMethods.AddImageOption(IManifest mod, Func<uint> getValue, Action<uint> setValue, Func<string> name, Func<(Func<string?> label, Texture2D sheet, Rectangle? sourceRect)[]> choices, Func<string>? tooltip, int arrowLocation, int labelLocation, string? fieldId) {
             AddImageOption(mod, getValue, setValue, name, choices, tooltip, null, null, arrowLocation, labelLocation, fieldId);
+        }
+
+        void IObsoleteApiMethods.AddColorOption(IManifest mod, Func<Color> getValue, Action<Color> setValue, Func<string> name,
+            Func<string>? tooltip, bool showAlpha, uint colorPickerStyle, string? fieldId) {
+            AddColorOption(mod, getValue, setValue, name, tooltip, showAlpha, colorPickerStyle, fieldId, null);
         }
     }
     /// <summary>

@@ -34,6 +34,14 @@ namespace GMCMOptions.Framework {
                             int arrowLocation = (int)ImageOptionArrowLocation.Top,
                             int labelLocation = (int)ImageOptionLabelLocation.Top,
                             string? fieldId = null);
+
+        // Deprecated (because additional arguments with default values were added) in 2.1
+
+        [Obsolete(message: "This AddColorOption single signature is deprecated; use one of the others instead")]
+        void AddColorOption(IManifest mod, Func<Color> getValue, Action<Color> setValue, Func<string> name,
+            Func<string>? tooltip = null, bool showAlpha = true, uint colorPickerStyle = 0, string? fieldId = null);
+
+
     }
 }
 
