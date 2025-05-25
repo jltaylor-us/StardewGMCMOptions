@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI;
 using StardewValley;
+using StardewValley.Objects;
 
 namespace GMCMOptions {
     /// <summary>
@@ -20,6 +21,7 @@ namespace GMCMOptions {
             public Color c2 = Color.MediumAquamarine;
             public Color c3 = Color.SandyBrown;
             public Color c4 = Color.ForestGreen;
+            public Color c5 = Color.Fuchsia;
             public uint i1 = 0;
             public uint i2 = 1;
             public uint i3 = 2;
@@ -113,6 +115,18 @@ namespace GMCMOptions {
                 tooltip: () => "This example shows all different picker styles, with multiple visible at a time, with no alpha slider.",
                 showAlpha: false,
                 colorPickerStyle: (uint)(IGMCMOptionsAPI.ColorPickerStyle.AllStyles | IGMCMOptionsAPI.ColorPickerStyle.ToggleChooser));
+            configMenuExt.AddColorOption(
+                mod: ModManifest,
+                getValue: () => config.c5,
+                setValue: (c) => config.c5 = c,
+                name: () => "Custom example swatch",
+                tooltip: () => "This example has a custom draw function for the example color swatch.",
+                colorPickerStyle: (uint)(IGMCMOptionsAPI.ColorPickerStyle.AllStyles | IGMCMOptionsAPI.ColorPickerStyle.ToggleChooser),
+                drawSample: configMenuExt.MakeColorSwatchDrawer(
+                    drawBackground: (SpriteBatch b, Rectangle rect) => { },
+                    drawForeground: (SpriteBatch b, Rectangle rect, Color c) => {
+                        new ColoredObject("348", 1, c).drawInMenu(b, new Vector2(rect.X, rect.Y), 1f);
+                    }));
             // test the horizontal separator
             configMenuExt.AddHorizontalSeparator(
                 mod: ModManifest,

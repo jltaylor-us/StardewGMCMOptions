@@ -67,8 +67,7 @@ namespace GMCMOptions.Framework {
         readonly bool ShowStylePicker;
         readonly ColorPickerStyle EffectiveStyle;
         readonly Action<Color>? onValueChange;
-        readonly Action<SpriteBatch, Rectangle> DrawBackground;
-        readonly Action<SpriteBatch, Rectangle> DrawCheckerBoard = (b, colorBox) => b.Draw(checkerboard, colorBox, Color.White);
+        private readonly Action<SpriteBatch, int, int, Color> drawSample;
         // UI widgets
 
         readonly IconButton RGBStyleButton;
@@ -102,15 +101,17 @@ namespace GMCMOptions.Framework {
         /// <param name="showAlpha">Whether a slider should be shown for setting the Alpha channel or not</param>
         /// <param name="style">Specify which types of color picker to show</param>
         /// <param name="onValueChange">An action to invoke whenever the (current, unsaved) value changes</param>
-        /// <param name="drawBackground">Custom the background image, replacing the default chekerboard</param>
-        public ColorPickerOption(bool fixedHeight, Func<Color> getValue, Action<Color> setValue, bool showAlpha = true, ColorPickerStyle style = 0, Action<Color>? onValueChange = null, Action<SpriteBatch, Rectangle>? drawBackground = null) {
+        /// <param name="drawSample">A function to draw a sample of the current Color; defaults to <c>MakeColorSwatchDrawer</c></param>
+        public ColorPickerOption(bool fixedHeight, Func<Color> getValue, Action<Color> setValue, bool showAlpha = true,
+            ColorPickerStyle style = 0, Action<Color>? onValueChange = null,
+            Action<SpriteBatch, int, int, Color>? drawSample = null) {
             FixedHeight = fixedHeight;
             GetValue = getValue;
             SetValue = setValue;
             ShowAlpha = showAlpha;
             currentValue = getValue();
             this.onValueChange = onValueChange;
-            DrawBackground = drawBackground ?? DrawCheckerBoard;
+            this.drawSample = drawSample ?? MakeColorSwatchDrawer();
 
             if (style == ColorPickerStyle.Default) {
                 style = ColorPickerStyle.AllStyles | ColorPickerStyle.ToggleChooser;
@@ -275,28 +276,45 @@ namespace GMCMOptions.Framework {
             return height;
         }
 
+        public static Action<SpriteBatch, int, int, Color> MakeColorSwatchDrawer(
+            Action<SpriteBatch, Rectangle>? drawBackground = null,
+            Action<SpriteBatch, Rectangle, Color>? drawForeground = null) {
+            return (SpriteBatch b, int left, int top, Color currentValue) => {
+                IClickableMenu.drawTextureBox(b, Game1.menuTexture, new Rectangle(0, 256, 60, 60), left, top, colorBoxOuterSize, colorBoxOuterSize, Color.White, 1f, false);
+                var colorBox = new Rectangle(left + colorBoxBorder, top + colorBoxBorder, colorBoxInnerSize, colorBoxInnerSize);
+                if (drawBackground is not null) {
+                    drawBackground.Invoke(b, colorBox);
+                } else {
+                    b.Draw(checkerboard, colorBox, Color.White);
+                }
+                b.End();
+                // Fixed blend state to not accidentally show portions of the underlying rendered world when alpha != 1
+                // thanks to LinHuiGD <linhui_gd@hotmail.com> via GitHub
+                var blendState = new BlendState{
+                    ColorSourceBlend = Blend.SourceAlpha,
+                    ColorDestinationBlend = Blend.InverseSourceAlpha,
+                    AlphaSourceBlend = Blend.Zero,
+                    AlphaDestinationBlend = Blend.One,
+                };
+                b.Begin(SpriteSortMode.Deferred, blendState, SamplerState.PointClamp, null, Utility.ScissorEnabled);
+                if (drawForeground is not null) {
+                    drawForeground.Invoke(b, colorBox, currentValue);
+                } else {
+                    b.Draw(ColorUtil.Pixel, colorBox, currentValue);
+                }
+                b.End();
+                b.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, Utility.ScissorEnabled);
+            };
+        }
+
         /// <summary>
         /// Draw this Option at the given position on the screen
         /// </summary>
         public void Draw(SpriteBatch b, Vector2 pos) {
             int left = (int)pos.X;
             int top = (int)pos.Y;
-            IClickableMenu.drawTextureBox(b, Game1.menuTexture, new Rectangle(0, 256, 60, 60), left + colorBoxOffset, top, colorBoxOuterSize, colorBoxOuterSize, Color.White, 1f, false);
-            var colorBox = new Rectangle(left + colorBoxOffset + colorBoxBorder, top + colorBoxBorder, colorBoxInnerSize, colorBoxInnerSize);
-            DrawBackground.Invoke(b, colorBox);
-            b.End();
-            // Fixed blend state to not accidentally show portions of the underlying rendered world when alpha != 1
-            // thanks to LinHuiGD <linhui_gd@hotmail.com> via GitHub
-            var blendState = new BlendState{
-                ColorSourceBlend = Blend.SourceAlpha,
-                ColorDestinationBlend = Blend.InverseSourceAlpha,
-                AlphaSourceBlend = Blend.Zero,
-                AlphaDestinationBlend = Blend.One,
-            };
-            b.Begin(SpriteSortMode.Deferred, blendState, SamplerState.PointClamp, null, Utility.ScissorEnabled);
-            b.Draw(ColorUtil.Pixel, colorBox, currentValue);
-            b.End();
-            b.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, Utility.ScissorEnabled);
+
+            drawSample.Invoke(b, left + colorBoxOffset, top, currentValue);
 
             top += sliderSpacing;
 
