@@ -6,6 +6,8 @@
 Adds the ability to supply custom drawing functions for the "color
 swatch" that illustrates the current color in the color picker.
 
+Fix mouse state tracking for android. (thanks to GitHub user LinHuiGD)
+
 ## Version 2.0.0
 
 Built for SDV 1.6 / SMAPI 4.x.  Will not work with previous versions.
