@@ -44,7 +44,7 @@ namespace GMCMOptions.Framework.UI {
         /// <param name="drawX">The X coordinate of the position on the screen where the widget is drawn</param>
         /// <param name="drawY">The Y coordinate of the position on the screen where the widget is drawn</param>
         protected void UpdateMouseState(int drawX, int drawY) {
-            ButtonState buttonState = Mouse.GetState().LeftButton;
+            ButtonState buttonState = Game1.input.GetMouseState().LeftButton;
             if (buttonState == ButtonState.Pressed) {
                 int mouseX = Game1.getMouseX();
                 int mouseY = Game1.getMouseY();
